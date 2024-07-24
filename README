@@ -1,0 +1,86 @@
+Linux kernel
+============
+
+There are several guides for kernel developers and users. These guides can
+be rendered in a number of formats, like HTML and PDF. Please read
+Documentation/admin-guide/README.rst first.
+
+In order to build the documentation, use ``make htmldocs`` or
+``make pdfdocs``.  The formatted documentation can also be read online at:
+
+    https://www.kernel.org/doc/html/latest/
+
+There are various text files in the Documentation/ subdirectory,
+several of them using the Restructured Text markup notation.
+
+Please read the Documentation/process/changes.rst file, as it contains the
+requirements for building and running the kernel, and information about
+the problems which may result by upgrading your kernel.
+
+''Project Overview
+Project 2 is a kernel implementation of a binary search tree data structure for a mailbox that holds messages. 
+This project was designed for us to understand how interprocess communication occurs in the kernel. 
+Each mailbox holds a queue of messages that functions in the first in first out queue.
+
+''Contact information:
+Name: Odalis Flores
+Email: oflores4@umbc.edu
+
+''Installation and Setup
+No special specifications aside from regular instructions given for building custom kernels.
+
+''Kernel Modifications
+Syscalls added:
+mailbox_init
+This syscall creates a root node and returns 0 upon success.
+mailbox_create
+Adds a new node to the tree as long as it doesn't already exist, it should have an id that is greater than 0 and less than 2^64 -1 
+mailbox_destroy
+Deletes a queue identified by specified number and any messages still in the queue
+mailbox_delete
+Deletes the oldest message in the queue specified
+message_count
+Counts the number of messages in the queue
+mailbox_send
+Sends a message from userspace to kernel space in the specified queue
+mailbox_recv
+Sends the oldest message from kernel space to user space from the specified queue
+mailbox_shutdown
+Deletes the whole mailbox with any of the mailbox queues
+Message_length
+Gets the length of a message in the queue
+
+
+''Data Structure:
+I created a basic binary search tree. The nodes on the left side of the root are smaller than the right side. 
+I chose to create a basic BST and if I had time I could implement a balancing algorithm for the tree. The structure has the ability to 
+create a tree node, insert the tree node, delete the tree node, search a tree node, find the min node and traverse the tree. 
+I created a singly linked list data structure that holds the queue of messages. Each queue is allocated only when a message is 
+sent to an existing mailbox. The singly linked list structure can create a list node, add it to the end of the list, 
+peek at the head and remove the head of the queue.
+
+''User-space Driver Programs:
+The user space driver programs are set up to test each of the syscalls.
+To run test files, go to /proj2test directory
+run: make one 
+run: make two
+Both commands will compile the c files and run the program to see output
+For both it should say successful for all the syscalls except for the mailbox shutdown. 
+Which produces an error message because I failed to implement it correctly.
+
+''Testing Strategy
+For testing, I decided to add only the necessary syscalls first to test that those were working. 
+Then I was able to build two files to test for error catching and successful syscalls.
+
+''Troubleshooting
+Most issues encountered during implementation were catching syntax errors in the kernel implementation. 
+The kernel has very specific rules to declaring variables and where they can be declared. 
+I really struggled with getting the copy from user and copy to user to successfully function.
+I am still not sure if it was implemented correctly, but when I ran a strcmp with the expected outcome from the message queue it matched. 
+I saved the notes from CMSC341 data structures, which does include topics about BST and linked lists. It came in handy when implementing my BST. 
+I wanted to get the userspace code to work the most at first so that it would be easier to implement kernel space. 
+
+''References 
+https://drive.google.com/file/d/1tQ9N4x3qDsbqmtEH95XOSVbRxinkhcn2/view?usp=sharing
+https://www.kernel.org/doc/html/next/core-api/memory-allocation.html
+https://www3.cs.stonybrook.edu/~youngkwon/cse306/Lecture07_Kernel_Data_Structures.pdf
