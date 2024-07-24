@@ -17,9 +17,9 @@ Please read the Documentation/process/changes.rst file, as it contains the
 requirements for building and running the kernel, and information about
 the problems which may result by upgrading your kernel.
 
-''Project Overview
-Project 2 is a kernel implementation of a binary search tree data structure for a mailbox that holds messages. 
-This project was designed for us to understand how interprocess communication occurs in the kernel. 
+# Overview
+This is a kernel implementation of a binary search tree data structure for a mailbox that holds messages. 
+This project was designed to understand how interprocess communication occurs in the kernel. 
 Each mailbox holds a queue of messages that functions in the first in first out queue.
 
 ''Contact information:
